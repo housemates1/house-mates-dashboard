@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House Mates - Events</title>
+    <title>House Mates Dashboard</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap">
     <style>
         * {
@@ -16,15 +16,21 @@
             --accent: #ef4444;
             --accent-light: #f87171;
             --success: #10b981;
+            --warning: #f59e0b;
+            --critical: #ef4444;
+
             --surface-ground: #000000;
             --surface-card: #1a1a1a;
             --surface-hover: #2a2a2a;
             --surface-dim: #2d2d2d;
+
             --text-primary: #ffffff;
             --text-secondary: #d1d5db;
             --text-tertiary: #9ca3af;
             --text-muted: #6b7280;
             --border: #374151;
+
+            --spacing: 1rem;
         }
 
         body {
@@ -32,154 +38,531 @@
             background: var(--surface-ground);
             color: var(--text-primary);
             line-height: 1.6;
+            font-size: 15px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem 1rem;
+            padding: var(--spacing);
         }
 
+        /* Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
-            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
         }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo {
-            width: 50px;
-            height: 50px;
-            flex-shrink: 0;
-        }
-
-        .header-text h1 {
+        .header-title {
             font-family: 'Syne', sans-serif;
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            letter-spacing: -0.02em;
         }
 
-        .header-text p {
-            font-size: 14px;
-            color: var(--text-tertiary);
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
         }
 
-        .header-link {
-            background: var(--accent);
-            color: var(--surface-ground);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .header-link:hover {
-            background: var(--accent-light);
-        }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .events-section {
+        .theme-toggle {
             background: var(--surface-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-        }
-
-        .events-section h2 {
-            font-family: 'Syne', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-        }
-
-        .event-card {
-            background: var(--surface-hover);
-            border-left: 3px solid var(--accent);
             border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
             transition: all 0.2s;
         }
 
-        .event-card:hover {
-            background: var(--surface-dim);
-            transform: translateX(4px);
+        .theme-toggle:hover {
+            background: var(--surface-hover);
+            color: var(--text-primary);
         }
 
-        .event-card:last-child {
+        /* Main sections */
+        .section {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        /* Next Event (Featured) */
+        .next-event-card {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .event-date-big {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .event-month {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            margin-top: 0.25rem;
+        }
+
+        .event-status-badge {
+            background: var(--accent);
+            color: var(--surface-ground);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .event-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .event-detail-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .event-detail-value {
+            font-size: 15px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Action Items */
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .action-card {
+            background: var(--surface-hover);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .action-card.urgent {
+            border-left: 3px solid var(--critical);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .action-card.soon {
+            border-left: 3px solid var(--warning);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .action-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .action-item:last-child {
             margin-bottom: 0;
         }
 
-        .event-date {
-            font-family: 'Syne', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+        .action-checkbox {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+            margin-top: 2px;
         }
 
-        .event-name {
-            font-size: 16px;
+        .action-content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .action-content p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Event Pipeline */
+        .event-pipeline {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .pipeline-card {
+            background: var(--surface-hover);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            min-width: 140px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .pipeline-date {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        .pipeline-name {
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 1.3;
+        }
+
+        .pipeline-venue {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* DJ/Artist Status */
+        .artist-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .artist-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .artist-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .artist-list::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+
+        .artist-list::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+
+        .artist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.35rem 0.3rem;
+            background: var(--surface-hover);
+            border-radius: 6px;
+            border-left: 3px solid transparent;
+            font-size: 11px;
+            margin-bottom: 0.2rem;
+        }
+
+        .artist-item.booked {
+            border-left-color: var(--accent);
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .artist-name {
+            font-weight: 500;
+        }
+
+        .artist-status {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .artist-status.booked {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Finance Card */
+        .finance-mini {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .finance-stat {
+            text-align: center;
+        }
+
+        .finance-stat-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
-        .event-details {
-            display: flex;
-            gap: 1rem;
+        .finance-stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .finance-stat-value.revenue {
+            color: var(--success);
+        }
+
+        .finance-stat-value.expense {
+            color: var(--accent);
+        }
+
+        /* DJ Database */
+        .dj-search {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
             font-size: 13px;
+            margin-bottom: 1rem;
+        }
+
+        .dj-table {
+            width: 100%;
+            font-size: 12px;
+            border-collapse: collapse;
+            overflow-x: auto;
+        }
+
+        .dj-table th {
+            text-align: left;
+            padding: 0.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dj-table td {
+            padding: 0.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dj-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .dj-name.booked {
+            color: var(--accent);
+        }
+
+        .dj-booked-badge {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            [style*="grid-template-columns: 1fr 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            .event-details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .finance-mini {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .next-event-card {
+                padding: 1rem;
+            }
+
+            .event-date-big {
+                font-size: 36px;
+            }
+
+            .event-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: flex-start;
+            }
+
+            .header-controls {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .event-pipeline {
+                gap: 0.5rem;
+            }
+
+            .pipeline-card {
+                min-width: 120px;
+                padding: 0.6rem;
+            }
+
+            .finance-mini {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .section {
+                padding: 0.75rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 14px;
+                margin-bottom: 0.75rem;
+            }
+
+            .event-date-big {
+                font-size: 28px;
+            }
+
+            .action-item {
+                gap: 0.5rem;
+            }
+
+            .action-content h4 {
+                font-size: 13px;
+            }
+
+            .action-content p {
+                font-size: 11px;
+            }
+        }
+
+        .text-muted {
             color: var(--text-tertiary);
         }
 
-        .event-details span {
+        /* Login Page */
+        .login-page {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--surface-ground);
         }
 
-        .login-section {
+        .login-card {
             background: var(--surface-card);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 2rem;
-            height: fit-content;
-            position: sticky;
-            top: 2rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
 
         .login-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
         }
 
-        .login-header h3 {
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+
+        .login-title {
             font-family: 'Syne', sans-serif;
-            font-size: 18px;
+            font-size: 24px;
             font-weight: 700;
+            text-align: center;
             margin-bottom: 0.5rem;
         }
 
-        .login-header p {
-            font-size: 12px;
-            color: var(--text-tertiary);
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
         }
 
         .form-group {
@@ -188,7 +571,7 @@
 
         .form-label {
             display: block;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-secondary);
             margin-bottom: 0.5rem;
@@ -199,7 +582,7 @@
             width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             background: var(--surface-hover);
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
@@ -213,13 +596,25 @@
             background: var(--surface-dim);
         }
 
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 13px;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-checkbox input {
+            cursor: pointer;
+        }
+
         .login-button {
             width: 100%;
             padding: 0.75rem;
             background: var(--accent);
             color: var(--surface-ground);
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
@@ -232,18 +627,38 @@
             background: var(--accent-light);
         }
 
-        .login-message {
+        .login-button:active {
+            transform: scale(0.98);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
             background: rgba(239, 68, 68, 0.1);
             color: var(--accent);
             padding: 0.75rem;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 1rem;
             border: 1px solid var(--accent);
             display: none;
         }
 
-        .login-message.show {
+        .error-message.show {
             display: block;
         }
 
@@ -252,7 +667,7 @@
             color: var(--success);
             padding: 0.75rem;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 1rem;
             border: 1px solid var(--success);
             display: none;
@@ -262,48 +677,65 @@
             display: block;
         }
 
-        .forgot-link {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 12px;
-        }
-
-        .forgot-link a {
-            color: var(--accent);
-            text-decoration: none;
+        .logout-btn {
+            background: var(--surface-hover);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
             cursor: pointer;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.2s;
         }
 
-        .forgot-link a:hover {
-            text-decoration: underline;
+        .logout-btn:hover {
+            background: var(--surface-dim);
+            color: var(--text-primary);
         }
 
-        @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
+        .hidden {
+            display: none !important;
+        }
 
-            .login-section {
-                position: static;
-            }
+        .setup-2fa-form {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
 
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
+        .setup-2fa-form.show {
+            display: block;
+        }
 
-            .header-link {
-                align-self: flex-start;
-            }
+        .setup-2fa-form p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .setup-2fa-form strong {
+            color: var(--accent);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo-section">
-                <svg class="logo" viewBox="0 0 100 100">
+    <!-- LOGIN PAGE -->
+    <div id="login-page" class="login-page">
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; max-width: 900px; width: 100%; margin: 0 auto; padding: 0 1rem;">
+            <!-- Upcoming Events on Login -->
+            <div class="login-card" style="max-width: none;">
+                <h2 style="font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 1.5rem; color: var(--accent);">Upcoming Events</h2>
+                <div id="login-events" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+            </div>
+
+            <!-- Login Form -->
+            <div class="login-card" style="max-width: none;">
+            <div class="login-header">
+                <svg class="login-logo" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3.5"/>
                     <line x1="28" y1="28" x2="40" y2="40" stroke="white" stroke-width="5" stroke-linecap="round"/>
                     <line x1="40" y1="28" x2="28" y2="40" stroke="white" stroke-width="5" stroke-linecap="round"/>
@@ -312,85 +744,192 @@
                     </g>
                     <path d="M 32 68 Q 50 78 68 68" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
                 </svg>
-                <div class="header-text">
-                    <h1>House Mates</h1>
-                    <p>Bringing underground sound, above ground.</p>
-                </div>
-            </div>
-            <a href="/dashboard/index.html" class="header-link">Full Dashboard →</a>
-        </header>
-
-        <div class="main-grid">
-            <!-- Upcoming Events -->
-            <div class="events-section">
-                <h2>Upcoming Events</h2>
-                <div id="events-container"></div>
+                <h1 class="login-title">House Mates</h1>
+                <p class="login-subtitle">Event Management Dashboard</p>
             </div>
 
-            <!-- Quick Login -->
-            <div class="login-section">
-                <div class="login-header">
-                    <h3>Access Dashboard</h3>
-                    <p>Enter your password</p>
-                </div>
-
-                <div id="error-message" class="login-message"></div>
+            <div id="login-form" class="login-form">
+                <div id="error-message" class="error-message"></div>
                 <div id="success-message" class="success-message"></div>
-
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="email-input" class="form-input" value="hello@housemates.se" readonly>
-                </div>
 
                 <div class="form-group">
                     <label class="form-label">Password</label>
                     <input type="password" id="password-input" class="form-input" placeholder="Enter password">
                 </div>
 
-                <button class="login-button" onclick="handleQuickLogin()">Sign In</button>
+                <div class="form-group">
+                    <label class="form-label">2FA Code (Google Authenticator)</label>
+                    <input type="text" id="totp-input" class="form-input" placeholder="Enter 6-digit code" maxlength="6">
+                </div>
 
-                <div class="forgot-link">
-                    <a onclick="handleForgotPassword()">Forgot password?</a>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="remember-checkbox">
+                    <label for="remember-checkbox">Remember me</label>
+                </div>
+
+                <button class="login-button" onclick="handleLogin()">Sign In</button>
+
+                <div class="forgot-link" style="margin-top: 1rem;">
+                    <a onclick="showSetup2FA()">Need to set up 2FA?</a>
+                </div>
+
+                <div class="forgot-password">
+                    <a onclick="showForgotPassword()">Forgot password?</a>
                 </div>
             </div>
+
+            <div id="setup-2fa-form" class="login-form hidden">
+                <div class="setup-2fa-form show">
+                    <p><strong>Two-Factor Authentication Setup</strong></p>
+                    <p>Your 2FA code is: <strong>123456</strong></p>
+                    <p>Save this code securely. You'll need it each time you log in.</p>
+                </div>
+                <button class="login-button" onclick="showLogin()">Back to Login</button>
+            </div>
+
+            <div id="forgot-form" class="login-form hidden">
+                <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 1.5rem;">Enter your email to receive a password reset link.</p>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="forgot-email-input" class="form-input" value="hello@housemates.se" readonly>
+                </div>
+
+                <button class="login-button" onclick="handleForgotPassword()">Send Reset Link</button>
+
+                <div class="forgot-password">
+                    <a onclick="showLogin()">Back to login</a>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <script>
-        const CORRECT_PASSWORD = 'housemates2024';
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="hidden">
+    <div class="container">
+        <header>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <!-- Smiley Logo -->
+                <svg width="50" height="50" viewBox="0 0 100 100" style="flex-shrink: 0;">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3.5"/>
+                    <line x1="28" y1="28" x2="40" y2="40" stroke="white" stroke-width="5" stroke-linecap="round"/>
+                    <line x1="40" y1="28" x2="28" y2="40" stroke="white" stroke-width="5" stroke-linecap="round"/>
+                    <g transform="translate(64, 32)">
+                        <path d="M 0,-2 C -4,-6 -10,-6 -10,0 C -10,6 0,14 0,14 C 0,14 10,6 10,0 C 10,-6 4,-6 0,-2 Z" fill="#ef4444"/>
+                    </g>
+                    <path d="M 32 68 Q 50 78 68 68" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                </svg>
+                <div>
+                    <h1 class="header-title">House Mates</h1>
+                    <p class="text-muted" style="font-size: 14px; margin-top: 0.25rem;">Bringing underground sound, above ground.</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
+        </header>
 
-        const events = [
-            { date: '22 Aug', name: 'House Mates Invites', venue: 'NK Rooftop', city: 'Stockholm', time: 'TBC' },
-            { date: '4 Sep', name: 'Gazebo', venue: 'Trollbacka', city: 'Stockholm', time: '15-03' },
-            { date: '5 Sep', name: 'Trollbacka', venue: 'Monsterfest', city: 'Stockholm', time: '15-03' },
-            { date: '19 Sep', name: 'Alien party', venue: 'TBC', city: 'Stockholm', time: '21-03' },
-            { date: '25 Sep', name: 'House Mates Invites', venue: 'Timebar', city: 'Stockholm', time: '14-19' },
-            { date: '26 Sep', name: 'Nattöga', venue: 'Gazebo', city: 'Stockholm', time: 'TBC' }
-        ];
-
-        function renderEvents() {
-            const container = document.getElementById('events-container');
-            container.innerHTML = '';
-
-            events.forEach(event => {
-                const card = document.createElement('div');
-                card.className = 'event-card';
-                card.innerHTML = `
-                    <div class="event-date">${event.date}</div>
-                    <div class="event-name">${event.name}</div>
-                    <div class="event-details">
-                        <span>📍 ${event.venue}</span>
-                        <span>🕐 ${event.time}</span>
+        <!-- URGENT ACTIONS & THIS WEEK -->
+        <div class="action-grid">
+            <!-- Urgent -->
+            <div class="action-card urgent">
+                <h3 style="font-size: 13px; font-weight: 600; margin-bottom: 0.75rem; color: var(--accent);">⚡ Urgent</h3>
+                <div class="action-item">
+                    <div class="action-checkbox"></div>
+                    <div class="action-content">
+                        <h4>Meet Stratos from Josefina</h4>
+                        <p>24 Aug at 2:00 PM</p>
                     </div>
-                `;
-                container.appendChild(card);
-            });
-        }
+                </div>
+                <div class="action-item">
+                    <div class="action-checkbox"></div>
+                    <div class="action-content">
+                        <h4>Review NK guest list</h4>
+                        <p>Identify key attendees</p>
+                    </div>
+                </div>
+            </div>
 
-        function handleQuickLogin() {
+            <!-- Soon -->
+            <div class="action-card soon">
+                <h3 style="font-size: 13px; font-weight: 600; margin-bottom: 0.75rem; color: var(--warning);">📅 This Week</h3>
+                <div class="action-item">
+                    <div class="action-checkbox"></div>
+                    <div class="action-content">
+                        <h4>Send thank you emails</h4>
+                        <p>After NK event, 1-2 days</p>
+                    </div>
+                </div>
+                <div class="action-item">
+                    <div class="action-checkbox"></div>
+                    <div class="action-content">
+                        <h4>Follow up with DJs</h4>
+                        <p>Confirm September bookings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- THREE COLUMN: Upcoming Events, Artists Database, Finance -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; height: 250px;">
+            <!-- Upcoming Events -->
+            <div class="section" style="display: flex; flex-direction: column; margin-bottom: 0; padding: 0.5rem;">
+                <h2 class="section-title" style="font-size: 14px; margin-bottom: 0.5rem;">Upcoming Events</h2>
+                <div style="overflow-y: auto; flex: 1;">
+                    <table class="dj-table" id="events-table" style="font-size: 11px;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 0.25rem; text-align: left;">Date</th>
+                                <th style="padding: 0.25rem; text-align: left;">Event</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Artists Database -->
+            <div class="section" style="display: flex; flex-direction: column; margin-bottom: 0; padding: 0.75rem;">
+                <h2 class="section-title" style="font-size: 14px; margin-bottom: 0.5rem;">Artists Database</h2>
+                <input type="text" id="artist-search" style="width: 100%; padding: 0.35rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-hover); color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 12px; margin-bottom: 0.5rem;" placeholder="Search...">
+                <div class="artist-list" id="booked-artists" style="flex: 1; overflow-y: auto; max-height: 100%; padding-right: 0.3rem;"></div>
+            </div>
+
+            <!-- Quick Finance -->
+            <div class="section" style="display: flex; flex-direction: column; margin-bottom: 0; padding: 0.75rem;">
+                <h2 class="section-title" style="font-size: 14px; margin-bottom: 0.5rem;">This Month</h2>
+                <div class="finance-mini" style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.5rem;">
+                    <div class="finance-stat">
+                        <div class="finance-stat-label" style="font-size: 10px;">Revenue</div>
+                        <div class="finance-stat-value revenue" id="revenue-amount" style="font-size: 18px;">8500 kr</div>
+                    </div>
+                    <div class="finance-stat">
+                        <div class="finance-stat-label" style="font-size: 10px;">Expenses</div>
+                        <div class="finance-stat-value expense" id="expenses-amount" style="font-size: 18px;">-1650 kr</div>
+                    </div>
+                    <div class="finance-stat">
+                        <div class="finance-stat-label" style="font-size: 10px;">Net</div>
+                        <div class="finance-stat-value" id="net-amount" style="font-size: 18px;">6850 kr</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Authentication
+        const CORRECT_PASSWORD = 'housemates2024';
+        const CORRECT_2FA = '123456'; // Simple 2FA code
+
+        function handleLogin() {
             const passwordInput = document.getElementById('password-input');
+            const totpInput = document.getElementById('totp-input');
             const errorMessage = document.getElementById('error-message');
             const password = passwordInput.value;
+            const totp = totpInput.value;
 
             errorMessage.classList.remove('show');
 
@@ -400,32 +939,289 @@
                 return;
             }
 
-            if (password === CORRECT_PASSWORD) {
-                sessionStorage.setItem('hm-session', 'authenticated');
-                window.location.href = '/dashboard/index.html';
+            if (!totp || totp.length !== 6) {
+                errorMessage.textContent = 'Please enter 6-digit code.';
+                errorMessage.classList.add('show');
+                return;
+            }
+
+            if (password === CORRECT_PASSWORD && totp === CORRECT_2FA) {
+                const rememberMe = document.getElementById('remember-checkbox').checked;
+
+                if (rememberMe) {
+                    localStorage.setItem('hm-session', 'authenticated');
+                } else {
+                    sessionStorage.setItem('hm-session', 'authenticated');
+                }
+
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                renderDashboard();
             } else {
-                errorMessage.textContent = 'Incorrect password.';
+                if (password !== CORRECT_PASSWORD) {
+                    errorMessage.textContent = 'Incorrect password.';
+                } else {
+                    errorMessage.textContent = 'Incorrect 2FA code.';
+                }
                 errorMessage.classList.add('show');
                 passwordInput.value = '';
+                totpInput.value = '';
                 passwordInput.focus();
             }
         }
 
+
         function handleForgotPassword() {
             const successMessage = document.getElementById('success-message');
-            successMessage.textContent = 'Password reset link sent to hello@housemates.se';
+            successMessage.textContent = 'Password reset link sent to hello@housemates.se. Please check your email.';
             successMessage.classList.add('show');
+
+            setTimeout(() => {
+                showLogin();
+                successMessage.classList.remove('show');
+            }, 3000);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderEvents();
+        function showForgotPassword() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('forgot-form').classList.remove('hidden');
+            document.getElementById('error-message').classList.remove('show');
+        }
 
+        function showLogin() {
+            document.getElementById('forgot-form').classList.add('hidden');
+            document.getElementById('setup-2fa-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('password-input').value = '';
+            document.getElementById('totp-input').value = '';
+            document.getElementById('error-message').classList.remove('show');
+        }
+
+        function showSetup2FA() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('forgot-form').classList.add('hidden');
+            document.getElementById('setup-2fa-form').classList.remove('hidden');
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('hm-session');
+            sessionStorage.removeItem('hm-session');
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('forgot-form').classList.add('hidden');
+            document.getElementById('password-input').value = '';
+            document.getElementById('error-message').classList.remove('show');
+        }
+
+        function checkSession() {
+            const isAuthenticated = localStorage.getItem('hm-session') === 'authenticated' ||
+                                   sessionStorage.getItem('hm-session') === 'authenticated';
+
+            if (isAuthenticated) {
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                renderDashboard();
+            } else {
+                document.getElementById('login-page').classList.remove('hidden');
+                document.getElementById('dashboard').classList.add('hidden');
+            }
+        }
+
+        // Render events on login page
+        function renderLoginEvents() {
+            const container = document.getElementById('login-events');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const upcomingEvents = events.filter(event => {
+                const eventDate = parseEventDate(event.date);
+                return eventDate >= today;
+            });
+
+            upcomingEvents.forEach(event => {
+                const card = document.createElement('div');
+                card.style.cssText = `
+                    background: var(--surface-hover);
+                    border-left: 3px solid var(--accent);
+                    border-radius: 6px;
+                    padding: 1rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.4rem;
+                `;
+                card.innerHTML = `
+                    <div style="font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--accent);">${event.date}</div>
+                    <div style="font-weight: 600; font-size: 14px;">${event.name}</div>
+                    <div style="font-size: 12px; color: var(--text-tertiary);">${event.venue}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Allow Enter key to submit login
+        document.addEventListener('DOMContentLoaded', () => {
             const passwordInput = document.getElementById('password-input');
+            const totpInput = document.getElementById('totp-input');
+
             passwordInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    handleQuickLogin();
+                    handleLogin();
                 }
             });
+
+            totpInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleLogin();
+                }
+            });
+
+            renderLoginEvents();
+            checkSession();
+        });
+
+        const djs = [
+            { name: 'Ameln', scene: '', city: 'Oslo', booked: '', style: 'Organic House' },
+            { name: 'Ambro', scene: '', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Arian Ojanpera', scene: '', city: 'Stockholm', booked: '', style: 'Progressive' },
+            { name: 'Ario', scene: '', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Awan', scene: '', city: 'Oslo', booked: '', style: '' },
+            { name: 'Azadi / Zamara', scene: '', city: 'Berlin', booked: '', style: '' },
+            { name: 'Adellic', scene: 'Nattöga', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Alonso', scene: '', city: 'Göteborg', booked: '', style: 'Minimal' },
+            { name: 'Anna Korsgren', scene: 'Nattöga', city: 'Stockholm', booked: '', style: 'Progressive' },
+            { name: 'Antonsson', scene: '', city: 'Stockholm', booked: '', style: 'House / Techno' },
+            { name: 'Anton', scene: 'Borderland', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Bara W', scene: 'Dual Drive', city: 'Stockholm', booked: '', style: 'Techno' },
+            { name: 'DJ BabyJesus', scene: '', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Essy', scene: '', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Floormagnet', scene: 'Slakthuset', city: 'Stockholm', booked: 'Yes', style: 'Techno' },
+            { name: 'Gestalt', scene: 'Monday Bar', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Joe', scene: 'Nattöga', city: 'Stockholm', booked: 'Yes', style: '' },
+            { name: 'Layer J', scene: 'Monday Bar', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Miss E & Jan Vall', scene: 'Nattöga', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Naughty Hana', scene: '', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Omar', scene: '', city: 'Malmö', booked: '', style: 'Hard House' },
+            { name: 'Romisa', scene: '', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Sigge Orlov', scene: 'Trädgården', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Stella Stellar', scene: '', city: 'Berlin', booked: '', style: 'Progressive' },
+            { name: 'Surfface', scene: '', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Tannaz', scene: '', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Victor Norman', scene: 'Nattöga', city: 'Stockholm', booked: '', style: '' },
+            { name: 'Zikiwiki', scene: '', city: 'Turku', booked: 'Yes', style: 'Mixed' }
+        ];
+
+        const events = [
+            { date: '22 Aug', name: 'House Mates Invites', venue: 'NK Rooftop Bar Ascaro', time: 'TBC', city: 'Stockholm' },
+            { date: '4 Sep', name: 'Gazebo', venue: 'Trollbacka', time: '15-03', city: 'Stockholm' },
+            { date: '5 Sep', name: 'Trollbacka', venue: 'Monsterfest', time: '15-03', city: 'Stockholm' },
+            { date: '19 Sep', name: 'Private Event', venue: 'TBC', time: '21-03', city: 'Stockholm' },
+            { date: '25 Sep', name: 'House Mates Invites', venue: 'Timebar', time: '14-19', city: 'Stockholm' },
+            { date: '26 Sep', name: 'Nattöga', venue: 'Gazebo', time: 'TBC', city: 'Stockholm' }
+        ];
+
+        const today = new Date('2026-08-23');
+
+        function parseEventDate(dateStr) {
+            const [day, month] = dateStr.split(' ');
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const monthIndex = months.indexOf(month);
+            return new Date(2026, monthIndex, parseInt(day));
+        }
+
+        function formatEventDateShort(dateStr) {
+            const eventDate = parseEventDate(dateStr);
+            return eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        function renderDashboard() {
+            // Events Table - show only upcoming events
+            const eventsList = document.getElementById('events-list');
+            eventsList.innerHTML = '';
+
+            const upcomingEvents = events.filter(event => {
+                const eventDate = parseEventDate(event.date);
+                return eventDate >= today;
+            });
+
+            upcomingEvents.forEach(event => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="color: var(--accent); font-weight: 600; padding: 0.3rem;">${event.date}</td>
+                    <td style="font-weight: 500; padding: 0.3rem; font-size: 12px;">${event.name}</td>
+                `;
+                eventsList.appendChild(row);
+            });
+
+            // All Artists (highlight booked)
+            renderArtists();
+        }
+
+        function renderArtists(filter = '') {
+            const bookedArtists = document.getElementById('booked-artists');
+            bookedArtists.innerHTML = '';
+            bookedArtists.style.paddingRight = '0.5rem';
+
+            const sorted = [...djs].sort((a, b) => a.name.localeCompare(b.name));
+            const filtered = sorted.filter(artist => {
+                const searchText = filter.toLowerCase();
+                return artist.name.toLowerCase().includes(searchText) ||
+                       artist.scene.toLowerCase().includes(searchText) ||
+                       artist.city.toLowerCase().includes(searchText) ||
+                       artist.style.toLowerCase().includes(searchText);
+            });
+
+            if (filtered.length === 0) {
+                bookedArtists.innerHTML = '<p style="color: var(--text-tertiary); font-size: 13px;">No artists match your search</p>';
+                return;
+            }
+
+            filtered.forEach(artist => {
+                const item = document.createElement('div');
+                item.className = artist.booked === 'Yes' ? 'artist-item booked' : 'artist-item';
+                item.style.borderLeftColor = artist.booked === 'Yes' ? 'var(--accent)' : 'transparent';
+                item.style.background = artist.booked === 'Yes' ? 'rgba(239, 68, 68, 0.08)' : 'var(--surface-hover)';
+                item.innerHTML = `
+                    <div style="display: flex; flex-direction: column; flex: 1;">
+                        <div class="artist-name ${artist.booked === 'Yes' ? 'booked' : ''}">${artist.booked === 'Yes' ? '❤️ ' : ''}${artist.name}</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">${artist.city}</div>
+                    </div>
+                    <div class="artist-status ${artist.booked === 'Yes' ? 'booked' : ''}">${artist.booked === 'Yes' ? 'Booked' : 'Available'}</div>
+                `;
+                bookedArtists.appendChild(item);
+            });
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.querySelector('.theme-toggle');
+            const currentTheme = html.getAttribute('data-theme');
+
+            if (currentTheme === 'dark') {
+                html.removeAttribute('data-theme');
+                btn.textContent = '🌙 Dark';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '☀️ Light';
+            }
+
+            localStorage.setItem('hm-theme', html.getAttribute('data-theme') || 'system');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('hm-theme');
+            if (saved && saved !== 'system') {
+                document.documentElement.setAttribute('data-theme', saved);
+                const btn = document.querySelector('.theme-toggle');
+                btn.textContent = saved === 'dark' ? '☀️ Light' : '🌙 Dark';
+            }
+
+            const searchInput = document.getElementById('artist-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    renderArtists(e.target.value);
+                });
+            }
         });
     </script>
 </body>
