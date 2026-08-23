@@ -382,16 +382,16 @@
 
         .dj-table th {
             text-align: left;
-            padding: 0.5rem;
+            padding: 0.25rem;
             font-weight: 600;
             color: var(--text-secondary);
             text-transform: uppercase;
-            font-size: 11px;
+            font-size: 10px;
             border-bottom: 1px solid var(--border);
         }
 
         .dj-table td {
-            padding: 0.5rem;
+            padding: 0.25rem;
             border-bottom: 1px solid var(--border);
         }
 
@@ -697,6 +697,29 @@
         .hidden {
             display: none !important;
         }
+
+        .setup-2fa-form {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .setup-2fa-form.show {
+            display: block;
+        }
+
+        .setup-2fa-form p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .setup-2fa-form strong {
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
@@ -753,6 +776,15 @@
                 <div class="forgot-password">
                     <a onclick="showForgotPassword()">Forgot password?</a>
                 </div>
+            </div>
+
+            <div id="setup-2fa-form" class="login-form hidden">
+                <div class="setup-2fa-form show">
+                    <p><strong>Two-Factor Authentication Setup</strong></p>
+                    <p>Your 2FA code is: <strong>123456</strong></p>
+                    <p>Save this code securely. You'll need it each time you log in.</p>
+                </div>
+                <button class="login-button" onclick="showLogin()">Back to Login</button>
             </div>
 
             <div id="forgot-form" class="login-form hidden">
@@ -843,15 +875,14 @@
         <!-- THREE COLUMN: Upcoming Events, Artists Database, Finance -->
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; height: 250px;">
             <!-- Upcoming Events -->
-            <div class="section" style="display: flex; flex-direction: column; margin-bottom: 0; padding: 0.75rem;">
+            <div class="section" style="display: flex; flex-direction: column; margin-bottom: 0; padding: 0.5rem;">
                 <h2 class="section-title" style="font-size: 14px; margin-bottom: 0.5rem;">Upcoming Events</h2>
                 <div style="overflow-y: auto; flex: 1;">
-                    <table class="dj-table" id="events-table" style="font-size: 10px;">
+                    <table class="dj-table" id="events-table" style="font-size: 11px;">
                         <thead>
                             <tr>
-                                <th style="padding: 0.3rem;">Date</th>
-                                <th style="padding: 0.3rem;">Event</th>
-                                <th style="padding: 0.3rem;">Venue</th>
+                                <th style="padding: 0.25rem; text-align: left;">Date</th>
+                                <th style="padding: 0.25rem; text-align: left;">Event</th>
                             </tr>
                         </thead>
                         <tbody id="events-list"></tbody>
@@ -959,10 +990,17 @@
 
         function showLogin() {
             document.getElementById('forgot-form').classList.add('hidden');
+            document.getElementById('setup-2fa-form').classList.add('hidden');
             document.getElementById('login-form').classList.remove('hidden');
             document.getElementById('password-input').value = '';
             document.getElementById('totp-input').value = '';
             document.getElementById('error-message').classList.remove('show');
+        }
+
+        function showSetup2FA() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('forgot-form').classList.add('hidden');
+            document.getElementById('setup-2fa-form').classList.remove('hidden');
         }
 
         function handleLogout() {
@@ -996,7 +1034,12 @@
             if (!container) return;
             container.innerHTML = '';
 
-            events.forEach(event => {
+            const upcomingEvents = events.filter(event => {
+                const eventDate = parseEventDate(event.date);
+                return eventDate >= today;
+            });
+
+            upcomingEvents.forEach(event => {
                 const card = document.createElement('div');
                 card.style.cssText = `
                     background: var(--surface-hover);
@@ -1072,7 +1115,7 @@
             { date: '22 Aug', name: 'House Mates Invites', venue: 'NK Rooftop Bar Ascaro', time: 'TBC', city: 'Stockholm' },
             { date: '4 Sep', name: 'Gazebo', venue: 'Trollbacka', time: '15-03', city: 'Stockholm' },
             { date: '5 Sep', name: 'Trollbacka', venue: 'Monsterfest', time: '15-03', city: 'Stockholm' },
-            { date: '19 Sep', name: 'Alien party', venue: 'TBC', time: '21-03', city: 'Stockholm' },
+            { date: '19 Sep', name: 'Private Event', venue: 'TBC', time: '21-03', city: 'Stockholm' },
             { date: '25 Sep', name: 'House Mates Invites', venue: 'Timebar', time: '14-19', city: 'Stockholm' },
             { date: '26 Sep', name: 'Nattöga', venue: 'Gazebo', time: 'TBC', city: 'Stockholm' }
         ];
@@ -1092,15 +1135,20 @@
         }
 
         function renderDashboard() {
-            // Events Table
+            // Events Table - show only upcoming events
             const eventsList = document.getElementById('events-list');
             eventsList.innerHTML = '';
-            events.forEach(event => {
+
+            const upcomingEvents = events.filter(event => {
+                const eventDate = parseEventDate(event.date);
+                return eventDate >= today;
+            });
+
+            upcomingEvents.forEach(event => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td style="color: var(--accent); font-weight: 600; padding: 0.4rem;">${event.date}</td>
-                    <td style="font-weight: 500; padding: 0.4rem;">${event.name}</td>
-                    <td style="color: var(--text-secondary); padding: 0.4rem;">${event.venue}</td>
+                    <td style="color: var(--accent); font-weight: 600; padding: 0.3rem;">${event.date}</td>
+                    <td style="font-weight: 500; padding: 0.3rem; font-size: 12px;">${event.name}</td>
                 `;
                 eventsList.appendChild(row);
             });
