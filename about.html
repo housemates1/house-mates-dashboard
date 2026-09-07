@@ -81,18 +81,13 @@
             text-transform: uppercase;
             letter-spacing: 0.02em;
         }
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        @media (max-width: 640px) {
-            .two-col { grid-template-columns: 1fr; }
-        }
         .copy-block ul { list-style: disc; padding-left: 1.2rem; margin-bottom: 0.75rem; color: var(--text-secondary); font-size: 13px; }
         .copy-block ul:last-child { margin-bottom: 0; }
         .copy-block li { margin-bottom: 0.5rem; }
         .copy-block p.note { color: var(--text-muted); font-style: italic; font-size: 12px; }
+        .copy-block p { color: var(--text-secondary); font-size: 14px; line-height: 1.75; margin-bottom: 1rem; }
+        .copy-block p:last-child { margin-bottom: 0; }
+        .copy-block p.tagline { color: var(--text-primary); font-weight: 600; }
     </style>
 </head>
 <body>
@@ -101,7 +96,7 @@
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <img src="assets/hmi-logo.png" alt="House Mates Invites" style="height: 40px; width: auto; flex-shrink: 0;">
                 <div>
-                    <p style="color: var(--text-muted); font-size: 14px;">Bringing underground sound, above ground.</p>
+                    <p style="color: var(--text-muted); font-size: 14px;">Bringing underground sound, above ground. Different circles, same energy.</p>
                 </div>
             </div>
         </header>
@@ -114,27 +109,26 @@
             <a href="events/25-sept-timebar.html">25/9 Timebar</a>
         </nav>
 
-        <div class="two-col">
-            <div class="section">
-                <div class="section-title">What is House Mates Invites?</div>
-                <div class="copy-block">
-                    <ul>
-                        <li>House Mates Invites is our curated event series bringing underground music to unexpected venues around Stockholm</li>
-                        <li>The concept brings people from different circles together on the same dance floor</li>
-                        <li>We spotlight local DJs, and for select occasions, international guest artists</li>
-                        <li>We handle concept, artist bookings, programme, communications and marketing ourselves</li>
-                    </ul>
-                    <p class="note">(DJ bios to be added here once finalised)</p>
-                </div>
+        <div class="section">
+            <div class="section-title">House Mates</div>
+            <div class="copy-block">
+                <p>House Mates is a Stockholm-based electronic music collective founded by Erik Sahl and HANA, creating events which often take place in unexpected spaces, bringing familiar faces together with new circles and creating an atmosphere that feels closer to a private house party than a traditional club night.</p>
+                <p>From organic to progressive, minimal and groovy, we curate music with a focus on the journey — but ultimately, it's about the people, the energy, and the connections made along the way.</p>
+                <p>We're here to support our fellow local DJ friends — from seasoned veterans who have been part of the scene for years to emerging DJs just finding their sound. Alongside our local artists, we occasionally welcome guest DJs visiting from abroad, bringing new sounds, and a little bit of surprise to the dance floor.</p>
+                <p class="tagline">Bringing underground sound, above ground. Different circles, same energy.</p>
             </div>
-            <div class="section">
-                <div class="section-title">Who are House Mates?</div>
-                <div class="copy-block">
-                    <ul>
-                        <li>House Mates is a Stockholm-based DJ duo formed by DJ couple HANA and Erik Sahl</li>
-                        <li>They've played at multiple venues across Stockholm, including for Demand and Technostate, and supported established international artists</li>
-                    </ul>
-                </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">What is House Mates Invites?</div>
+            <div class="copy-block">
+                <ul>
+                    <li>House Mates Invites is our curated event series bringing underground music to unexpected venues around Stockholm</li>
+                    <li>The concept brings people from different circles together on the same dance floor</li>
+                    <li>We spotlight local DJs, and for select occasions, international guest artists</li>
+                    <li>We handle concept, artist bookings, programme, communications and marketing ourselves</li>
+                </ul>
+                <p class="note">(DJ bios to be added here once finalised)</p>
             </div>
         </div>
     </div>
