@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — House Mates Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --accent: #ef4444;
+            --success: #10b981;
+            --surface-ground: #000000;
+            --surface-card: #1a1a1a;
+            --surface-hover: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #d1d5db;
+            --text-tertiary: #9ca3af;
+            --text-muted: #6b7280;
+            --border: #374151;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--surface-ground);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        .container {
+            width: 100%;
+            margin: 0;
+            padding: 1rem clamp(1rem, 4vw, 4rem);
+            box-sizing: border-box;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .header-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .top-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .top-nav a {
+            padding: 0.65rem 1rem;
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        .top-nav a:hover { color: var(--text-primary); }
+        .top-nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .section {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 640px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+        .copy-block ul { list-style: disc; padding-left: 1.2rem; margin-bottom: 0.75rem; color: var(--text-secondary); font-size: 13px; }
+        .copy-block ul:last-child { margin-bottom: 0; }
+        .copy-block li { margin-bottom: 0.5rem; }
+        .copy-block p.note { color: var(--text-muted); font-style: italic; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img src="assets/hmi-logo.png" alt="House Mates Invites" style="height: 40px; width: auto; flex-shrink: 0;">
+                <div>
+                    <p style="color: var(--text-muted); font-size: 14px;">Bringing underground sound, above ground.</p>
+                </div>
+            </div>
+        </header>
+
+        <nav class="top-nav">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="assets.html">Assets</a>
+            <a href="finances.html">Finances</a>
+            <a href="events/25-sept-timebar.html">25/9 Timebar</a>
+        </nav>
+
+        <div class="two-col">
+            <div class="section">
+                <div class="section-title">What is House Mates Invites?</div>
+                <div class="copy-block">
+                    <ul>
+                        <li>House Mates Invites is our curated event series bringing underground music to unexpected venues around Stockholm</li>
+                        <li>The concept brings people from different circles together on the same dance floor</li>
+                        <li>We spotlight local DJs, and for select occasions, international guest artists</li>
+                        <li>We handle concept, artist bookings, programme, communications and marketing ourselves</li>
+                    </ul>
+                    <p class="note">(DJ bios to be added here once finalised)</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Who are House Mates?</div>
+                <div class="copy-block">
+                    <ul>
+                        <li>House Mates is a Stockholm-based DJ duo formed by DJ couple HANA and Erik Sahl</li>
+                        <li>They've played at multiple venues across Stockholm, including for Demand and Technostate, and supported established international artists</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

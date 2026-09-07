@@ -42,9 +42,10 @@
         }
 
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: var(--spacing);
+            width: 100%;
+            margin: 0;
+            padding: var(--spacing) clamp(1rem, 4vw, 4rem);
+            box-sizing: border-box;
         }
 
         /* Header */
@@ -68,6 +69,35 @@
             display: flex;
             gap: 1rem;
             align-items: center;
+        }
+
+        .top-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .top-nav a {
+            padding: 0.65rem 1rem;
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .top-nav a:hover {
+            color: var(--text-primary);
+        }
+
+        .top-nav a.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
         }
 
         .theme-toggle {
@@ -173,9 +203,16 @@
         /* Action Items */
         .action-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 420px));
             gap: 1rem;
             margin-bottom: 1.5rem;
+        }
+        .three-col-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 320px));
+            gap: 1rem;
+            margin-bottom: 1rem;
+            height: 250px;
         }
 
         .action-card {
@@ -423,8 +460,9 @@
                 grid-template-columns: 1fr;
             }
 
-            [style*="grid-template-columns: 1fr 1fr 1fr"] {
-                grid-template-columns: 1fr !important;
+            .three-col-row {
+                grid-template-columns: 1fr;
+                height: auto;
             }
 
             .event-details-grid {
@@ -521,11 +559,109 @@
 
         /* Login Page */
         .login-page {
-            display: flex;
-            align-items: center;
-            justify-content: center;
             min-height: 100vh;
             background: var(--surface-ground);
+        }
+
+        .landing-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3.5rem 1.5rem 4rem;
+        }
+
+        .landing-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .landing-logo {
+            height: 56px;
+            width: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .landing-hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .landing-tagline {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 0.9rem;
+        }
+
+        .landing-location {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.4rem 1rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .landing-about {
+            max-width: 580px;
+            margin: 0 auto;
+            font-size: 14.5px;
+            line-height: 1.75;
+            color: var(--text-secondary);
+        }
+
+        .landing-events {
+            margin-bottom: 2.5rem;
+        }
+
+        .landing-events h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .landing-events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .team-login-toggle {
+            text-align: center;
+        }
+
+        .team-login-toggle button {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-tertiary);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            padding: 0.5rem 1.25rem;
+        }
+
+        .team-login-toggle button:hover {
+            color: var(--text-primary);
+            border-color: var(--text-tertiary);
+        }
+
+        #team-login-panel {
+            margin: 1.5rem auto 0;
         }
 
         .login-card {
@@ -723,82 +859,82 @@
     </style>
 </head>
 <body>
-    <!-- LOGIN PAGE -->
+    <!-- LOGIN PAGE / PUBLIC LANDING -->
     <div id="login-page" class="login-page">
-        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; max-width: 900px; width: 100%; margin: 0 auto; padding: 0 1rem;">
-            <!-- Upcoming Events on Login -->
-            <div class="login-card" style="max-width: none;">
-                <h2 style="font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 1.5rem; color: var(--accent);">Upcoming Events</h2>
-                <div id="login-events" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+        <div class="landing-wrap">
+
+            <!-- Hero: what House Mates is + where it's based -->
+            <div class="landing-hero">
+                <img src="assets/hmi-logo.png" alt="House Mates Invites" class="landing-logo">
+                <p class="landing-tagline">Bringing underground sound, above ground.</p>
+                <div class="landing-location">📍 Based in Stockholm, Sweden</div>
+                <p class="landing-about">House Mates is Erik Sahl and HANA — a Stockholm-based DJ duo running a curated event series that brings underground music to unexpected venues around the city. They spotlight local DJs and, for select occasions, international guest artists, moving through progressive, minimal and tech house.</p>
             </div>
 
-            <!-- Login Form -->
-            <div class="login-card" style="max-width: none;">
-            <div class="login-header">
-                <svg class="login-logo" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3.5"/>
-                    <line x1="28" y1="28" x2="40" y2="40" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="40" y1="28" x2="28" y2="40" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                    <g transform="translate(64, 32)">
-                        <path d="M 0,-2 C -4,-6 -10,-6 -10,0 C -10,6 0,14 0,14 C 0,14 10,6 10,0 C 10,-6 4,-6 0,-2 Z" fill="#ef4444"/>
-                    </g>
-                    <path d="M 32 68 Q 50 78 68 68" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-                </svg>
-                <h1 class="login-title">House Mates</h1>
-                <p class="login-subtitle">Event Management Dashboard</p>
+            <!-- Upcoming Events -->
+            <div class="landing-events">
+                <h2>Upcoming Events</h2>
+                <div id="login-events" class="landing-events-grid"></div>
             </div>
 
-            <div id="login-form" class="login-form">
-                <div id="error-message" class="error-message"></div>
-                <div id="success-message" class="success-message"></div>
-
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" id="password-input" class="form-input" placeholder="Enter password">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">2FA Code (Google Authenticator)</label>
-                    <input type="text" id="totp-input" class="form-input" placeholder="Enter 6-digit code" maxlength="6">
-                </div>
-
-                <div class="form-checkbox">
-                    <input type="checkbox" id="remember-checkbox">
-                    <label for="remember-checkbox">Remember me</label>
-                </div>
-
-                <button class="login-button" onclick="handleLogin()">Sign In</button>
-
-                <div class="forgot-link" style="margin-top: 1rem;">
-                    <a onclick="showSetup2FA()">Need to set up 2FA?</a>
-                </div>
-
-                <div class="forgot-password">
-                    <a onclick="showForgotPassword()">Forgot password?</a>
-                </div>
+            <!-- Collapsed team login -->
+            <div class="team-login-toggle">
+                <button id="team-login-toggle-btn" onclick="toggleTeamLogin()">Team Login</button>
             </div>
 
-            <div id="setup-2fa-form" class="login-form hidden">
-                <div class="setup-2fa-form show">
-                    <p><strong>Two-Factor Authentication Setup</strong></p>
-                    <p>Your 2FA code is: <strong>123456</strong></p>
-                    <p>Save this code securely. You'll need it each time you log in.</p>
+            <div id="team-login-panel" class="login-card hidden" style="max-width: 400px;">
+                <div id="login-form" class="login-form">
+                    <div id="error-message" class="error-message"></div>
+                    <div id="success-message" class="success-message"></div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="password-input" class="form-input" placeholder="Enter password">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">2FA Code (Google Authenticator)</label>
+                        <input type="text" id="totp-input" class="form-input" placeholder="Enter 6-digit code" maxlength="6">
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="remember-checkbox">
+                        <label for="remember-checkbox">Remember me</label>
+                    </div>
+
+                    <button class="login-button" onclick="handleLogin()">Sign In</button>
+
+                    <div class="forgot-link" style="margin-top: 1rem;">
+                        <a onclick="showSetup2FA()">Need to set up 2FA?</a>
+                    </div>
+
+                    <div class="forgot-password">
+                        <a onclick="showForgotPassword()">Forgot password?</a>
+                    </div>
                 </div>
-                <button class="login-button" onclick="showLogin()">Back to Login</button>
-            </div>
 
-            <div id="forgot-form" class="login-form hidden">
-                <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 1.5rem;">Enter your email to receive a password reset link.</p>
-
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="forgot-email-input" class="form-input" value="hello@housemates.se" readonly>
+                <div id="setup-2fa-form" class="login-form hidden">
+                    <div class="setup-2fa-form show">
+                        <p><strong>Two-Factor Authentication Setup</strong></p>
+                        <p>Your 2FA code is: <strong>123456</strong></p>
+                        <p>Save this code securely. You'll need it each time you log in.</p>
+                    </div>
+                    <button class="login-button" onclick="showLogin()">Back to Login</button>
                 </div>
 
-                <button class="login-button" onclick="handleForgotPassword()">Send Reset Link</button>
+                <div id="forgot-form" class="login-form hidden">
+                    <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 1.5rem;">Enter your email to receive a password reset link.</p>
 
-                <div class="forgot-password">
-                    <a onclick="showLogin()">Back to login</a>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="forgot-email-input" class="form-input" value="hello@housemates.se" readonly>
+                    </div>
+
+                    <button class="login-button" onclick="handleForgotPassword()">Send Reset Link</button>
+
+                    <div class="forgot-password">
+                        <a onclick="showLogin()">Back to login</a>
+                    </div>
                 </div>
             </div>
 
@@ -810,19 +946,9 @@
     <div class="container">
         <header>
             <div style="display: flex; align-items: center; gap: 1rem;">
-                <!-- Smiley Logo -->
-                <svg width="50" height="50" viewBox="0 0 100 100" style="flex-shrink: 0;">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3.5"/>
-                    <line x1="28" y1="28" x2="40" y2="40" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="40" y1="28" x2="28" y2="40" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                    <g transform="translate(64, 32)">
-                        <path d="M 0,-2 C -4,-6 -10,-6 -10,0 C -10,6 0,14 0,14 C 0,14 10,6 10,0 C 10,-6 4,-6 0,-2 Z" fill="#ef4444"/>
-                    </g>
-                    <path d="M 32 68 Q 50 78 68 68" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-                </svg>
+                <img src="assets/hmi-logo.png" alt="House Mates Invites" style="height: 40px; width: auto; flex-shrink: 0;">
                 <div>
-                    <h1 class="header-title">House Mates</h1>
-                    <p class="text-muted" style="font-size: 14px; margin-top: 0.25rem;">Bringing underground sound, above ground.</p>
+                    <p class="text-muted" style="font-size: 14px;">Bringing underground sound, above ground.</p>
                 </div>
             </div>
             <div class="header-controls">
@@ -830,6 +956,14 @@
                 <button class="logout-btn" onclick="handleLogout()">Logout</button>
             </div>
         </header>
+
+        <nav class="top-nav">
+            <a href="index.html" class="active">Home</a>
+            <a href="about.html">About</a>
+            <a href="assets.html">Assets</a>
+            <a href="finances.html">Finances</a>
+            <a href="events/25-sept-timebar.html">25/9 Timebar</a>
+        </nav>
 
         <!-- URGENT ACTIONS & THIS WEEK -->
         <div class="action-grid">
@@ -873,7 +1007,7 @@
         </div>
 
         <!-- THREE COLUMN: Upcoming Events, Artists Database, Finance -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; height: 250px;">
+        <div class="three-col-row">
             <!-- Upcoming Events -->
             <div class="section" style="display: flex; flex-direction: column; margin-bottom: 0; padding: 0.5rem;">
                 <h2 class="section-title" style="font-size: 14px; margin-bottom: 0.5rem;">Upcoming Events</h2>
@@ -1003,6 +1137,17 @@
             document.getElementById('setup-2fa-form').classList.remove('hidden');
         }
 
+        function toggleTeamLogin() {
+            const panel = document.getElementById('team-login-panel');
+            const btn = document.getElementById('team-login-toggle-btn');
+            const opening = panel.classList.contains('hidden');
+            panel.classList.toggle('hidden');
+            btn.textContent = opening ? 'Hide Team Login' : 'Team Login';
+            if (opening) {
+                panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
         function handleLogout() {
             localStorage.removeItem('hm-session');
             sessionStorage.removeItem('hm-session');
@@ -1012,6 +1157,8 @@
             document.getElementById('forgot-form').classList.add('hidden');
             document.getElementById('password-input').value = '';
             document.getElementById('error-message').classList.remove('show');
+            document.getElementById('team-login-panel').classList.add('hidden');
+            document.getElementById('team-login-toggle-btn').textContent = 'Team Login';
         }
 
         function checkSession() {
@@ -1113,14 +1260,18 @@
 
         const events = [
             { date: '22 Aug', name: 'House Mates Invites', venue: 'NK Rooftop Bar Ascaro', time: 'TBC', city: 'Stockholm' },
-            { date: '4 Sep', name: 'Gazebo', venue: 'Trollbacka', time: '15-03', city: 'Stockholm' },
-            { date: '5 Sep', name: 'Trollbacka', venue: 'Monsterfest', time: '15-03', city: 'Stockholm' },
-            { date: '19 Sep', name: 'Private Event', venue: 'TBC', time: '21-03', city: 'Stockholm' },
-            { date: '25 Sep', name: 'House Mates Invites', venue: 'Timebar', time: '14-19', city: 'Stockholm' },
-            { date: '26 Sep', name: 'Nattöga', venue: 'Gazebo', time: 'TBC', city: 'Stockholm' }
+            { date: '28 Aug', name: 'Stay Toxic', venue: 'Crack Bellmer', time: 'TBC', city: 'Berlin' },
+            { date: '4 Sep', name: "Frida's Birthday", venue: 'Gazebo', time: '01-03', city: 'Stockholm' },
+            { date: '5 Sep', name: 'Private Event', venue: 'Monsterfest', time: '18-20', city: 'TBC' },
+            { date: '19 Sep', name: 'Deeper Darker (Private Event)', venue: 'The Alien Embassy', time: '21-03', city: 'Stockholm' },
+            { date: '25 Sep', name: 'House Mates Invites × Gux Jimenez', venue: 'Timebar', time: '21-03', city: 'Stockholm' },
+            { date: '26 Sep', name: '2nd Year Celebration: We Grew Wild', venue: 'Gazebo', time: '16-19', city: 'TBC' },
+            { date: '3 Oct', name: 'House Mates Invites', venue: 'Slakthuset', time: '21-03', city: 'TBC' },
+            { date: '10 Oct', name: 'Darling Festival', venue: 'TBC', time: 'TBC', city: 'TBC' }
         ];
 
-        const today = new Date('2026-08-23');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
         function parseEventDate(dateStr) {
             const [day, month] = dateStr.split(' ');

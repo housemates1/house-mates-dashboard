@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Mates Invites × Timebar — 25 Sept 2026</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        /* ============================================================
+           EVENT PAGE TEMPLATE
+           To reuse for another event: duplicate this file, then update
+           only the blocks marked "EVENT DATA" below. Styles/layout are
+           shared brand chrome — leave those as-is.
+           ============================================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --accent: #ef4444;
+            --accent-light: #f87171;
+            --success: #10b981;
+            --surface-ground: #000000;
+            --surface-card: #1a1a1a;
+            --surface-hover: #2a2a2a;
+            --surface-dim: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #d1d5db;
+            --text-tertiary: #9ca3af;
+            --text-muted: #6b7280;
+            --border: #374151;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--surface-ground);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        .container {
+            width: 100%;
+            margin: 0;
+            padding: 1rem clamp(1rem, 4vw, 4rem);
+            box-sizing: border-box;
+        }
+        .back-link {
+            display: inline-block;
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 1rem;
+        }
+        .back-link:hover { color: var(--text-primary); }
+        header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .event-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .event-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            margin-top: 0.5rem;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+        .event-meta strong { color: var(--text-secondary); font-weight: 600; }
+        .status-badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .quick-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .quick-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.4rem 0.9rem;
+        }
+        .quick-nav a:hover { color: var(--text-primary); border-color: var(--text-tertiary); }
+        .section {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            scroll-margin-top: 1rem;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .section-header .section-title { margin-bottom: 0; }
+        .progress-badge {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            background: var(--surface-hover);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.2rem 0.7rem;
+        }
+        .progress-badge.complete { color: var(--success); border-color: var(--success); }
+        .section-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: -0.75rem;
+            margin-bottom: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th {
+            text-align: left;
+            padding: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.03em;
+            border-bottom: 1px solid var(--border);
+        }
+        td {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover td { background: var(--surface-hover); }
+        .lineup-set { color: var(--text-primary); font-weight: 600; }
+        .finance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .finance-stat { text-align: center; }
+        .finance-stat-label {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+        .finance-stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .finance-stat-value.positive { color: var(--success); }
+        .finance-stat-value.cost { color: var(--accent); }
+        ul.plain { list-style: none; }
+        ul.plain li {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        ul.plain li:last-child { border-bottom: none; }
+        .checklist li { padding: 0; }
+        .checklist label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.5rem 0.25rem;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .checklist label:hover { background: var(--surface-hover); }
+        .checklist input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        .checklist .item-text { flex: 1; }
+        .checklist input:checked ~ .item-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+        .table-scroll { overflow-x: auto; }
+        .table-scroll table { min-width: 480px; }
+        .days-to-go {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; align-items: flex-start; }
+            .finance-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .section { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="back-link" href="../index.html">&larr; Back to Dashboard</a>
+
+        <!-- ===================== EVENT DATA: HEADER ===================== -->
+        <header>
+            <img src="../assets/hmi-logo.png" alt="House Mates Invites" style="height: 36px; width: auto; flex-shrink: 0;">
+            <div>
+                <div class="event-title">House Mates Invites × Timebar</div>
+                <div class="event-meta">
+                    <span><strong>Date:</strong> Friday 25 September 2026</span>
+                    <span><strong>Time:</strong> TBC</span>
+                    <span><strong>Venue:</strong> Timebar, Stockholm</span>
+                    <span><strong>Entry:</strong> Free for all guests</span>
+                    <span class="status-badge">Set order TBC</span>
+                    <span id="days-to-go" class="days-to-go"></span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="quick-nav">
+            <a href="#lineup">Lineup</a>
+            <a href="#finance">Finance</a>
+            <a href="#packlist">Pack List</a>
+            <a href="#social">Social</a>
+            <a href="#openitems">Open Items</a>
+        </nav>
+
+        <!-- ===================== EVENT DATA: LINEUP ===================== -->
+        <div class="section" id="lineup">
+            <div class="section-title">Lineup</div>
+            <div class="section-subtitle">Set order not yet finalised — confirm and update this table.</div>
+            <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr><th>Time</th><th>Set</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>TBC</td><td class="lineup-set">Heddin <span style="color:var(--text-muted); font-weight:400;">(Stockholm)</span></td></tr>
+                    <tr><td>TBC</td><td class="lineup-set">Erik &amp; Hana b2b</td></tr>
+                    <tr><td>TBC</td><td class="lineup-set">Mark Jackus <span style="color:var(--text-muted); font-weight:400;">(Berlin)</span></td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- ===================== EVENT DATA: FINANCE (internal) ===================== -->
+        <div class="section" id="finance">
+            <div class="section-title">Finance — Internal</div>
+            <div class="finance-grid">
+                <div class="finance-stat">
+                    <div class="finance-stat-label">Timebar Fee</div>
+                    <div class="finance-stat-value">4,000 kr <span style="font-size:11px; color:var(--text-muted); font-weight:400;">+ VAT</span></div>
+                </div>
+                <div class="finance-stat">
+                    <div class="finance-stat-label">Heddin Fee (cost)</div>
+                    <div class="finance-stat-value cost">-1,000 kr</div>
+                </div>
+                <div class="finance-stat">
+                    <div class="finance-stat-label">Net to Erik &amp; Hana</div>
+                    <div class="finance-stat-value positive">3,000 kr <span style="font-size:11px; color:var(--text-muted); font-weight:400;">excl. VAT</span></div>
+                </div>
+            </div>
+            <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr><th>Type</th><th>Cost item</th><th>Budget</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Core</td><td>Heddin fee</td><td>1,000 kr</td><td></td></tr>
+                    <tr><td>Core</td><td>Mark Jackus flight</td><td>0 kr</td><td>SAS points</td></tr>
+                    <tr><td>Core</td><td>Mark Jackus accommodation</td><td>0 kr</td><td>Staying at Erik &amp; Hana's</td></tr>
+                    <tr><td>Possible</td><td>Taxi / airport pickup for Mark</td><td>—</td><td>Who's handling this?</td></tr>
+                    <tr><td>Possible</td><td>Marketing / paid ads</td><td>—</td><td>Meta, Instagram</td></tr>
+                    <tr><td>Optional</td><td>Photography / video</td><td>—</td><td>Content from the evening</td></tr>
+                    <tr><td>Buffer</td><td>Contingency / miscellaneous</td><td>—</td><td></td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- ===================== EVENT DATA: PACK LIST (internal) ===================== -->
+        <div class="section" id="packlist">
+            <div class="section-header">
+                <div class="section-title">Pack List</div>
+                <span class="progress-badge" data-progress-for="packlist-items"></span>
+            </div>
+            <ul class="plain checklist" id="packlist-items">
+                <li><label><input type="checkbox" data-key="decks"><span class="item-text">Confirm what decks/setup Timebar provides <span style="color:var(--text-muted);">— check with venue</span></span></label></li>
+                <li><label><input type="checkbox" data-key="cdj"><span class="item-text">CDJ / Mixer (if not provided by venue)</span></label></li>
+                <li><label><input type="checkbox" data-key="audio-cables"><span class="item-text">Audio cables</span></label></li>
+                <li><label><input type="checkbox" data-key="usbc-cables"><span class="item-text">USB-C cables</span></label></li>
+                <li><label><input type="checkbox" data-key="headphones"><span class="item-text">Headphones</span></label></li>
+                <li><label><input type="checkbox" data-key="camera"><span class="item-text">Content camera (DJI Osmo or similar) <span style="color:var(--text-muted);">— charge, check storage</span></span></label></li>
+                <li><label><input type="checkbox" data-key="battery"><span class="item-text">Battery bank <span style="color:var(--text-muted);">— charge beforehand</span></span></label></li>
+                <li><label><input type="checkbox" data-key="guestlist"><span class="item-text">Guest list / door tracking (phone or sheet)</span></label></li>
+            </ul>
+        </div>
+
+        <!-- ===================== EVENT DATA: SOCIAL PLAN (internal) ===================== -->
+        <div class="section" id="social">
+            <div class="section-title">Social Media Strategy</div>
+            <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr><th>Date</th><th>Countdown</th><th>Format</th><th>What to post</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>31 Aug – 7 Sept</td><td>T-25 to T-18</td><td>Feed + Stories</td><td>Lineup reveal: Heddin, Mark Jackus, Erik &amp; Hana b2b. RSVP link live.</td></tr>
+                    <tr><td>8 – 14 Sept</td><td>T-17 to T-11</td><td>Stories + Reel</td><td>DJ spotlights on Heddin and Mark Jackus, teaser mixes</td></tr>
+                    <tr><td>15 – 21 Sept</td><td>T-10 to T-4</td><td>Feed + Stories</td><td>RSVP reminder, tag Timebar, countdown</td></tr>
+                    <tr><td>22 – 24 Sept</td><td>T-3 to T-1</td><td>Stories + Reel</td><td>Final hype, practical info (entrance, doors, free entry)</td></tr>
+                    <tr><td>25 Sept</td><td>Event day</td><td>Live Stories</td><td>Arrivals, each DJ, crowd, atmosphere</td></tr>
+                    <tr><td>26 – 28 Sept</td><td>T+1 to T+3</td><td>Stories + Reel</td><td>Thank you post, tag DJs and Timebar, recap reel</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- ===================== EVENT DATA: OPEN ITEMS (internal) ===================== -->
+        <div class="section" id="openitems">
+            <div class="section-header">
+                <div class="section-title">Open Items</div>
+                <span class="progress-badge" data-progress-for="openitems-list"></span>
+            </div>
+            <ul class="plain checklist" id="openitems-list">
+                <li><label><input type="checkbox" data-key="set-times"><span class="item-text">Confirm exact set times and running order</span></label></li>
+                <li><label><input type="checkbox" data-key="airport-pickup"><span class="item-text">Confirm who picks up Mark Jackus from the airport</span></label></li>
+                <li><label><input type="checkbox" data-key="equipment"><span class="item-text">Confirm what equipment Timebar provides vs. what to bring</span></label></li>
+                <li><label><input type="checkbox" data-key="rsvp-decision"><span class="item-text">Decide RSVP vs. walk-in for the free-entry guest list</span></label></li>
+                <li><label><input type="checkbox" data-key="invoice"><span class="item-text">Invoice Timebar (4,000 SEK + VAT) via mrpotato once event is done</span></label></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Days-to-go badge
+        (function() {
+            const eventDate = new Date(2026, 8, 25); // 25 Sept 2026
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const diffDays = Math.round((eventDate - today) / 86400000);
+            const badge = document.getElementById('days-to-go');
+            if (diffDays > 0) badge.textContent = diffDays + ' day' + (diffDays === 1 ? '' : 's') + ' to go';
+            else if (diffDays === 0) badge.textContent = 'Today';
+            else badge.textContent = 'Past event';
+        })();
+
+        // Checklist persistence + progress badges
+        (function() {
+            const STORAGE_KEY = 'hm-timebar-25sep-checklist';
+            let checked;
+            try {
+                checked = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+            } catch (e) {
+                checked = {};
+            }
+
+            function save() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+                } catch (e) {}
+            }
+
+            function updateProgress(listEl) {
+                const badge = document.querySelector('[data-progress-for="' + listEl.id + '"]');
+                if (!badge) return;
+                const boxes = listEl.querySelectorAll('input[type="checkbox"]');
+                const done = listEl.querySelectorAll('input[type="checkbox"]:checked').length;
+                badge.textContent = done + ' / ' + boxes.length;
+                badge.classList.toggle('complete', done === boxes.length && boxes.length > 0);
+            }
+
+            document.querySelectorAll('.checklist').forEach(function(list) {
+                list.querySelectorAll('input[type="checkbox"]').forEach(function(box) {
+                    const key = list.id + ':' + box.dataset.key;
+                    box.checked = !!checked[key];
+                    box.addEventListener('change', function() {
+                        checked[key] = box.checked;
+                        save();
+                        updateProgress(list);
+                    });
+                });
+                updateProgress(list);
+            });
+        })();
+    </script>
+</body>
+</html>
